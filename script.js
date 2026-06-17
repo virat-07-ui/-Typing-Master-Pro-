@@ -15,6 +15,7 @@ let currentSentence = "";
 let startTime = 0;
 
 // Elements
+
 const startBtn = document.getElementById("startBtn");
 const submitBtn = document.getElementById("submitBtn");
 const sentenceBox = document.getElementById("sentenceBox");
@@ -34,26 +35,40 @@ const bestAccuracyText = document.getElementById("bestAccuracy");
 const leaderboard = document.getElementById("leaderboard");
 
 const themeSelector = document.getElementById("themeSelector");
+const modeSelector =
+document.getElementById("gameMode");
 
+const gameArea =
+document.getElementById("gameArea");
 // ==========================
 // START TEST
 // ==========================
-
 startBtn.addEventListener("click", () => {
 
-    currentSentence =
-        sentences[Math.floor(Math.random() * sentences.length)];
+    let mode =
+    modeSelector.value;
 
-    sentenceBox.textContent = currentSentence;
+    if(mode === "classic"){
+        startClassic();
+    }
 
-    typingInput.value = "";
+    if(mode === "falling"){
+        startFallingMode();
+    }
 
-    startTime = Date.now();
+    if(mode === "survival"){
+        startSurvivalMode();
+    }
+
+    if(mode === "zombie"){
+        startZombieMode();
+    }
+
 });
 
 // ==========================
 // SUBMIT TEST
-// ==========================
+// ========================
 
 submitBtn.addEventListener("click", () => {
 
@@ -259,3 +274,109 @@ themeSelector.addEventListener(
 loadHighScore();
 loadLeaderboard();
 loadStats();
+function startClassic(){
+
+    currentSentence =
+    sentences[Math.floor(
+    Math.random()*sentences.length)];
+
+    sentenceBox.textContent =
+    currentSentence;
+
+    typingInput.value = "";
+
+    startTime = Date.now();
+}
+
+function startFallingMode(){
+
+    gameArea.innerHTML = "";
+
+    let word = "Python";
+
+    let div =
+    document.createElement("div");
+
+    div.className =
+    "falling-word";
+
+    div.innerText = word;
+
+    div.style.left = "100px";
+
+    gameArea.appendChild(div);
+
+    let y = 0;
+
+    let fall = setInterval(()=>{
+
+        y += 3;
+
+        div.style.top =
+        y + "px";
+
+        if(y > 350){
+
+            clearInterval(fall);
+
+            alert("Missed Word!");
+
+        }
+
+    },30);
+
+}
+
+function startSurvivalMode(){
+
+    alert(
+    "❤️ Survival Mode Started"
+    );
+
+    startClassic();
+
+}
+
+function startZombieMode(){
+
+    gameArea.innerHTML = "";
+
+    let zombie =
+    document.createElement("div");
+
+    zombie.className =
+    "zombie";
+
+    zombie.innerText =
+    "🧟 Python";
+
+    zombie.style.left =
+    "0px";
+
+    zombie.style.top =
+    "180px";
+
+    gameArea.appendChild(zombie);
+
+    let x = 0;
+
+    let move = setInterval(()=>{
+
+        x += 2;
+
+        zombie.style.left =
+        x + "px";
+
+        if(x > 320){
+
+            clearInterval(move);
+
+            alert(
+            "Zombie Reached Base!"
+            );
+
+        }
+
+    },30);
+
+}
